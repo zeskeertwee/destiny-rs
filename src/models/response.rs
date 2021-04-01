@@ -6,8 +6,8 @@ use {
     std::collections::HashMap,
 };
 
-#[serde(rename_all = "PascalCase")]
 #[derive(Deserialize)]
+#[serde(rename_all = "PascalCase")]
 pub struct GeneralAPIResponse<T>
 {
     pub response: T,

@@ -8,6 +8,9 @@ keywords = ["bungie", "destiny"]
 repository = "https://github.com/zeskeertwee/destiny-rs"
 description = "An async library to interact with Bungie's destiny 2 api."
 categories = ["api-bindings"]
+exclude = [
+    "test_data/*"
+]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

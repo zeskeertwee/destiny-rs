@@ -3,7 +3,6 @@ use {
         models::{
             types::*,
             quests::ObjectiveProgress,
-            membership::MembershipType
         },
     },
     serde::Deserialize,

@@ -176,7 +176,7 @@ where
         while let Some((key, value)) = map.next_entry::<String, V>()? {
             result.insert(match key.parse::<K>() {
                 Ok(x) => x,
-                Err(e) => return Err(A::Error::custom("invalid value"))
+                Err(_) => return Err(A::Error::custom("invalid value"))
             }, value);
         }
 
@@ -190,16 +190,4 @@ where
     V: Deserialize<'de>
 {
     d.deserialize_map(StringMapVisitor { key: PhantomData, value: PhantomData })
-}
-
-pub(crate) fn uint32_map_from_str_nullable<'de, D, K, V>(d: D) -> Result<Option<HashMap<K, V>>, D::Error>
-where
-    D: de::Deserializer<'de>,
-    K: hash::Hash + Eq + FromStr,
-    V: Deserialize<'de>
-{
-    Ok(match d.deserialize_map(StringMapVisitor { key: PhantomData, value: PhantomData }) {
-        Ok(x) => Some(x),
-        Err(_) => None
-    })
 }

@@ -7,13 +7,11 @@ use {
             progression::Progression,
         },
         traits::id::{
-            BNGMembershipID,
             DestinyMembershipID,
             CharacterID
         }
     },
     serde::Deserialize,
-    std::collections::HashMap,
 };
 
 #[derive(Debug, Deserialize, Clone)]
