@@ -3,6 +3,10 @@ name = "destiny_rs"
 version = "0.1.0"
 authors = ["Jasper Fortuin <zeskeertwee@gmail.com>"]
 edition = "2018"
+license = "MIT"
+keywords = ["bungie", "destiny"]
+repository = "https://github.com/zeskeertwee/destiny-rs"
+description = "An async library to interact with Bungie's destiny 2 api."
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
