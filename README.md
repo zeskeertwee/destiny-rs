@@ -1,8 +1,8 @@
 Destiny-rs
 ==========
 
-![license](https://img.shields.io/crates/l/destiny-rs)
-![docs](https://docs.rs/destiny_rs/badge.svg?version=0.1.0)
+[![license](https://img.shields.io/crates/l/destiny-rs)](LICENSE.md)
+[![docs](https://docs.rs/destiny_rs/badge.svg)](https://docs.rs/destiny_rs)
 
 A library for interacting with Bungie's destiny 2 api, and manifest
 
