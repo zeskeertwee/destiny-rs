@@ -22,6 +22,7 @@ use {
         },
         traits::{
             id::{
+                BNGMembershipID,
                 DestinyMembershipID,
                 PlatformType,
                 CharacterID
@@ -83,17 +84,25 @@ impl DestinyAPI {
         }
     }
 
+    pub async fn get_user_by_bungie_net_id<T: BNGMembershipID>(&self, id: &T) -> Result<GeneralUser> {
+        Ok(self.get_request(&format!("User/GetBungieNetUserById/{}/", id.bng_membership_id())).await?.response)
+    }
+
     pub async fn get_user_by_name(&self, username: String) -> Result<Vec<GeneralUser>> {
         Ok(self.get_request::<Vec<GeneralUser>>(&format!("User/SearchUsers?q={}/", username)).await?.response)
     }
 
     pub async fn get_user_by_steamid64<T: ToString>(&self, steamid: &T) -> Result<UserMembershipData> {
         let hardlinked = self.get_request::<HardLinkedUserMembership>(&format!("User/GetMembershipFromHardLinkedCredential/SteamID/{}/", steamid.to_string())).await?.response;
-        Ok(self.get_user_membership_data_by_membershipid(&hardlinked, &hardlinked).await?)
+        Ok(self.get_user_membership_data_by_membershipid_destiny(&hardlinked, &hardlinked).await?)
     }
 
-    pub async fn get_user_membership_data_by_membershipid<U: DestinyMembershipID, P: PlatformType>(&self, user: &U, platform: &P) -> Result<UserMembershipData> {
+    pub async fn get_user_membership_data_by_membershipid_destiny<U: DestinyMembershipID, P: PlatformType>(&self, user: &U, platform: &P) -> Result<UserMembershipData> {
         Ok(self.get_request(&format!("User/GetMembershipsById/{}/{}/", user.destiny_membership_id(), platform.platform_type().into_i32())).await?.response)
+    }
+
+    pub async fn get_user_membership_data_by_membershipid_bng<U: BNGMembershipID, P: PlatformType>(&self, user: &U, platform: &P) -> Result<UserMembershipData> {
+        Ok(self.get_request(&format!("User/GetMembershipsById/{}/{}/", user.bng_membership_id(), platform.platform_type().into_i32())).await?.response)
     }
 
     /// platform must not be [`BungieNet`](crate::models::membership::MembershipType::BungieNet)
