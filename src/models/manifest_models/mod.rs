@@ -8,6 +8,8 @@ pub mod inventory_item;
 pub mod gender;
 pub mod race;
 pub mod class;
+pub mod lore;
+pub mod record;
 //pub mod vendor;
 
 // re-exports
@@ -17,7 +19,9 @@ pub use {
     inventory_item::InventoryItem,
     gender::Gender,
     race::Race,
-    class::Class
+    class::Class,
+    lore::Lore,
+    record::Record,
 };
 
 #[derive(Debug, Deserialize, Clone)]
