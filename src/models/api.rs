@@ -173,28 +173,6 @@ impl DestinyAPI {
         Ok(self.download_manifest(res, p, loc).await?)
     }
 
-    /// retrieve manifest without api call
-    pub async fn manifest_no_call(&self, p: PathBuf, loc: Locale) -> Result<Manifest> {
-        let files: Vec<io::Result<DirEntry>> = read_dir(&p)?.collect();
-
-        for f in files {
-            if f?.file_name() == "manifestinfo.json" {
-                let mut manifest_info_path = p.clone();
-                manifest_info_path.push("manifestinfo.json");
-                let data: ManifestDownloadVersion = serde_json::from_str(&read_to_string(manifest_info_path)?)?;
-                
-                if let Some(x) = data.locales.get(&loc) {
-                    return Ok(Manifest {
-                        database: Mutex::new(sqlite::Connection::open(&x.path)?),
-                        version: x.version.to_owned()
-                    });
-                }
-            }
-        }
-        
-        Err(anyhow!("Manifest not found"))
-    }
-
     pub async fn manifest_up_to_date(&self, p: PathBuf, loc: Locale) -> Result<bool> {
         let files: Vec<io::Result<DirEntry>> = read_dir(&p)?.collect();
 
@@ -216,7 +194,7 @@ impl DestinyAPI {
             }
         }
 
-        Err(anyhow!("Manifest not found"))
+        return Err(anyhow!("Manifest not found"))
     }
 
     pub async fn manifest_unchecked(&self, p: PathBuf) -> Result<Manifest> {
