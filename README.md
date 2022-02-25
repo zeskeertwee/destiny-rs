@@ -43,3 +43,10 @@ pub async fn main() {
     }
 }
 ```
+
+Contributing
+=========
+This library is currently not complete, and doesn't cover all structs and endpoints of the bungie.net API. The goal is to eventually support all of the endpoints.
+
+To contribute, you should first open an issue (or assign a existing open issue to yourself) so that everyone can see you're working on something.
+Then, when you want to merge your code, you can open a PR to this repository.
