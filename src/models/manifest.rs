@@ -10,7 +10,7 @@ use {
     },
     std::{
         collections::HashMap,
-        path::PathBuf,
+        path::Path,
         fs::File,
         fmt,
         sync::Mutex,
@@ -55,7 +55,7 @@ pub struct GetDestinyManifestResponse {
 }
 
 impl Manifest {
-    pub(crate) async fn download_database(client: &reqwest::Client, url: &str, path: &PathBuf) -> Result<Connection> {
+    pub(crate) async fn download_database(client: &reqwest::Client, url: &str, path: &Path) -> Result<Connection> {
         let full_url = format!("{}{}", DOWNLOAD_BASE_URL, url);
 
         let mut save_file = File::create(&path)?;
