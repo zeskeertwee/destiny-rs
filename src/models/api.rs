@@ -61,7 +61,6 @@ use {
 };
 
 pub struct DestinyAPI {
-    api_key: String,
     client: reqwest::Client,
 }
 
@@ -77,11 +76,15 @@ struct DownloadedDatabase {
 }
 
 impl DestinyAPI {
-    pub fn new(key: &str) -> DestinyAPI {
-        DestinyAPI {
-            api_key: key.to_string(),
-            client: reqwest::Client::new(),
-        }
+    pub fn new(key: &str) -> Result<DestinyAPI> {
+        let mut headers = reqwest::header::HeaderMap::new();
+        headers.insert(
+            "X-API-Key",
+            reqwest::header::HeaderValue::from_str(key)?,
+        );
+        Ok(DestinyAPI {
+            client: reqwest::Client::builder().default_headers(headers).build()?,
+        })
     }
 
     pub async fn get_user_by_bungie_net_id<T: BNGMembershipID>(&self, id: &T) -> Result<GeneralUser> {
@@ -139,7 +142,6 @@ impl DestinyAPI {
             println!("API_CALL: {}/{}", API_BASE_URL, url.to_string());
         }
         let raw_response = self.client.get(&format!("{}/{}", API_BASE_URL, url.to_string()))
-            .header("X-Api-Key", self.api_key.clone())
             .send()
             .await?
             .text()
