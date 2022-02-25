@@ -136,9 +136,9 @@ impl DestinyAPI {
 
     pub async fn get_request<T: DeserializeOwned>(&self, url: &str) -> Result<GeneralAPIResponse<T>> {
         if cfg!(debug_assertions) {
-            println!("API_CALL: {}/{}", API_BASE_URL, url.to_string());
+            println!("API_CALL: {}/{}", API_BASE_URL, url);
         }
-        let raw_response = self.client.get(&format!("{}/{}", API_BASE_URL, url.to_string()))
+        let raw_response = self.client.get(&format!("{}/{}", API_BASE_URL, url))
             .header("X-Api-Key", self.api_key.clone())
             .send()
             .await?
