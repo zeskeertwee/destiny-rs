@@ -221,7 +221,7 @@ impl DestinyAPI {
             None => return Err(anyhow!("Locale not found in mobileWorldContentPaths")),
         };
 
-        let mobile_world = Manifest::download_database(&self.client, &mobile_world_content_url, &mobile_world_content_file_path).await?;
+        let mobile_world = Manifest::download_database(&self.client, mobile_world_content_url, &mobile_world_content_file_path).await?;
 
         let mut version_file_path = p.clone();
         version_file_path.push("manifestinfo.json");
@@ -239,7 +239,7 @@ impl DestinyAPI {
         version_file_data.locales.insert(loc, DownloadedDatabase { version: response.version.clone(), path: mobile_world_content_file_path });
 
         let mut version_file = File::create(&version_file_path)?;
-        version_file.write_all(&serde_json::to_string(&version_file_data)?.as_bytes())?;
+        version_file.write_all(serde_json::to_string(&version_file_data)?.as_bytes())?;
 
         Ok(Manifest {
             database: Mutex::new(mobile_world),
