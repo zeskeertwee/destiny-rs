@@ -103,9 +103,9 @@ impl Manifest {
 
         let result: Vec<T> = self.query_raw(&query)?;
         match result.len() {
-            0 => return Err(anyhow!("Invalid hash, no match found!")),
-            1 => return Ok(result[0].clone()),
-            _ => return Err(anyhow!("Multiple entries for hash found!"))
+            0 => Err(anyhow!("Invalid hash, no match found!")),
+            1 => Ok(result[0].clone()),
+            _ => Err(anyhow!("Multiple entries for hash found!"))
         }
     }
 }
