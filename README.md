@@ -16,7 +16,7 @@ use std::path::PathBuf;
 
 #[tokio::main]
 pub async fn main() {
-    let api = DestinyAPI::new(&env::var("API_KEY").unwrap());
+    let api = DestinyAPI::new(&env::var("API_KEY").unwrap()).unwrap();
 
     let mut manifest_path = PathBuf::new();
     manifest_path.push("./manifest");
