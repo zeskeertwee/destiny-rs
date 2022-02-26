@@ -1,6 +1,5 @@
 use std::fs::read_to_string;
 use crate::models::*;
-use serde_json;
 
 #[test]
 fn general_user_deserialization() {
