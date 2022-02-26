@@ -20,3 +20,4 @@ pub mod historical_stats;
 pub mod activity_mode;
 pub mod components;
 pub mod manifest_models;
+pub mod ignores;

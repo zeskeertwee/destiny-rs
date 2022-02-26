@@ -4,6 +4,7 @@ use {
             types::*,
             groupsv2::GroupUserInfoCard,
             membership::MembershipType,
+            ignores::IgnoreResponse,
         },
         traits::id::{
             BNGMembershipID,
@@ -18,7 +19,6 @@ use {
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct GeneralUser {
-    //TODO: context
     #[serde(deserialize_with = "int64_from_str")]
     pub membership_id: Int64,
     pub unique_name: String,
@@ -38,6 +38,7 @@ pub struct GeneralUser {
     #[serde(deserialize_with = "from_timestamp_nullable")]
     pub last_update: Option<APIdateTime>,
     pub legacy_portal_uid: Option<Int64>,
+    pub context: UserToUserContext,
     pub psn_display_name: Option<String>,
     pub xbox_display_name: Option<String>,
     pub fb_display_name: Option<String>,
@@ -114,4 +115,15 @@ impl DestinyMembershipID for UserMembershipData {
             self.destiny_memberships[0].membership_id
         }
     }
+}
+
+/// [Bungie documentation](https://bungie-net.github.io/multi/schema_User-UserToUserContext.html#schema_User-UserToUserContext)
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct UserToUserContext {
+    pub is_following: bool,
+    pub ignore_status: IgnoreResponse,
+    #[serde(default = "serde_none")]
+    #[serde(deserialize_with = "from_timestamp_nullable")]
+    pub global_ignore_end_date: Option<APIdateTime>,
 }
