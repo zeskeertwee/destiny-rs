@@ -18,3 +18,4 @@ jobs:
         run: cargo test -- --nocapture
         env:
           RUST_LOG: trace
+          BUNGIE_API_KEY: ${{ secrets.BUNGIE_API_KEY }}
