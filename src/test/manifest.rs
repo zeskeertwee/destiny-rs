@@ -67,7 +67,7 @@ fn manifest_keys() {
         ManifestKey::VendorGroup
     ];
 
-    let api = DestinyAPI::new(&std::env::var("BUNGIE_API_KEY").unwrap());
+    let api = DestinyAPI::new(&std::env::var("BUNGIE_API_KEY").unwrap()).unwrap();
     let mut manifest_path = PathBuf::new();
     // TODO: this probabbly breaks windows
     manifest_path.push(std::env::var("HOME").unwrap());
