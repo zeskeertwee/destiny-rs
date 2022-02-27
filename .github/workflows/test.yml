@@ -7,13 +7,14 @@ on:
     branches: [main]
 
 jobs:
-  runs-on: [ 'ubuntu-latest' ]
+  test:
+    runs-on: ubuntu-latest
   
-  steps:
-    - uses: actions/checkout@v2
-    - name: Build
-      run: cargo build
-    - name: Run tests
-      run: cargo test -- --nocapture
-      env:
-        RUST_LOG=trace
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: cargo build
+      - name: Run tests
+        run: cargo test -- --nocapture
+        env:
+          RUST_LOG=trace
