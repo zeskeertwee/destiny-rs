@@ -3,6 +3,7 @@ Destiny-rs
 
 [![license](https://img.shields.io/crates/l/destiny-rs)](LICENSE)
 [![docs](https://docs.rs/destiny_rs/badge.svg)](https://docs.rs/destiny_rs)
+[![Rust build/unit tests](https://github.com/zeskeertwee/destiny-rs/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/zeskeertwee/destiny-rs/actions/workflows/test.yml)
 
 A library for interacting with Bungie's destiny 2 api, and manifest
 
