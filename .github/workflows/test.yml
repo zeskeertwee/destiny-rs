@@ -11,6 +11,13 @@ jobs:
     runs-on: ubuntu-latest
   
     steps:
+      - name: Load manifest cache
+        uses: actions/cache@v2
+        env:
+          cache-name: destiny-manifest-cache
+        with:
+          path: ~/.local/share/destiny-rs
+          key: destiny-manifest-cache
       - uses: actions/checkout@v2
       - name: Build
         run: cargo build
