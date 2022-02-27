@@ -29,12 +29,14 @@ fn manifest_keys() {
         ManifestKey::Collectible,
         ManifestKey::DamageType,
         ManifestKey::Destination,
-        ManifestKey::EnemyRace,
         ManifestKey::EnergyType,
         ManifestKey::EquipmentSlot,
         ManifestKey::Faction,
         ManifestKey::Gender,
-        ManifestKey::HistoricalStats,
+
+        // TODO: this one appears to not use hashes
+        //ManifestKey::HistoricalStats,
+
         ManifestKey::InventoryBucket,
         ManifestKey::InventoryItem,
         ManifestKey::ItemCategory,
