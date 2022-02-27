@@ -23,6 +23,7 @@ sqlite = "0.25.3"
 zip = "0.5.11"
 anyhow = "1.0.39"
 async-trait = "0.1.48"
+directories = "4.0.1"
 
 [dependencies.tokio]
 version = "1.4.0"
@@ -30,3 +31,7 @@ features = ["macros"]
 
 [dev-dependencies]
 tokio-test = "0.4.1"
+
+[[bin]]
+name = "manifest_downloader"
+path = "src/manifest_downloader.rs"

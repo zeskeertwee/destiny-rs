@@ -7,6 +7,12 @@ use std::path::PathBuf;
 use tokio_test::block_on;
 
 #[test]
+fn test_get_recommended_manifest_path() {
+    let path = crate::get_recommended_manifest_path().unwrap();
+    println!("Recommended manifest path: {:?}", path);
+}
+
+#[test]
 fn manifest_keys() {
     let keys = vec![
         ManifestKey::Achievement,
@@ -68,10 +74,7 @@ fn manifest_keys() {
     ];
 
     let api = DestinyAPI::new(&std::env::var("BUNGIE_API_KEY").unwrap()).unwrap();
-    let mut manifest_path = PathBuf::new();
-    // TODO: this probabbly breaks windows
-    manifest_path.push(std::env::var("HOME").unwrap());
-    manifest_path.push(".destinyapi");
+    let mut manifest_path = crate::get_recommended_manifest_path().expect("Unable to get manifest path");
     
     let m = block_on(api.manifest(manifest_path, Locale::English)).unwrap();
 
