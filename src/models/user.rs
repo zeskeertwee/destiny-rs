@@ -38,7 +38,7 @@ pub struct GeneralUser {
     #[serde(deserialize_with = "from_timestamp_nullable")]
     pub last_update: Option<APIdateTime>,
     pub legacy_portal_uid: Option<Int64>,
-    pub context: UserToUserContext,
+    pub context: Option<UserToUserContext>,
     pub psn_display_name: Option<String>,
     pub xbox_display_name: Option<String>,
     pub fb_display_name: Option<String>,
