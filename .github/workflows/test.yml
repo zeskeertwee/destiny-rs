@@ -15,9 +15,6 @@ jobs:
       - name: Build
         run: cargo build
 
-      - name: Create manfiest URL file
-        run: touch ~/manifest-url.txt
-
       - name: Get manifest URL
         run: cargo run --bin manifest-downloader -- --ci-output-manifest-url
         env:
