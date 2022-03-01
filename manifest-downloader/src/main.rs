@@ -37,7 +37,7 @@ async fn main() {
 async fn output_manifest_url_to_file(api: &DestinyAPI, path: PathBuf) {
     let resp = api.call_get_manifest().await.unwrap();
     let url = resp.response.mobile_world_content_paths.get(&format!("{}", Locale::English)).unwrap();
-    let mut file = std::fs::File::create(path).unwrap();
+    let mut file = std::fs::File::create(&path).unwrap();
 
     file.write_all(url.as_bytes()).unwrap();
     info!("wrote manifest URL to file: {}", path.display());
