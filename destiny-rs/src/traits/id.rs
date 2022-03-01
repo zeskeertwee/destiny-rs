@@ -9,7 +9,6 @@ use {
         },
         manifest::{
             Manifest,
-            ManifestKey
         },
         manifest_models,
         components::character::CharacterComponent,

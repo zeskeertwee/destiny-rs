@@ -79,7 +79,7 @@ fn manifest_keys() {
     ];
 
     let api = DestinyAPI::new(&std::env::var("BUNGIE_API_KEY").unwrap()).unwrap();
-    let mut manifest_path = crate::get_recommended_manifest_path().expect("Unable to get manifest path");
+    let manifest_path = crate::get_recommended_manifest_path().expect("Unable to get manifest path");
     
     let m = block_on(api.manifest(manifest_path, Locale::English)).unwrap();
 
