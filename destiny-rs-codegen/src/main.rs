@@ -324,6 +324,7 @@ fn id_to_struct_name(id: &str) -> String {
         "int64" => "Int64".to_string(),
         "uint64" => "Uint64".to_string(),
         "boolean" => "Boolean".to_string(),
+        "byte" => "Byte".to_string(),
         _ => id.split('.').last().unwrap().to_string(),
     }
 }
