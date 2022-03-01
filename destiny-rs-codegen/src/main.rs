@@ -608,7 +608,11 @@ fn main() {
         match entity {
             Entity::Enumeration(enumeration) => {
                 enumerations_generated += 1;
-                output_file.write_all(b"#[repr(").unwrap();
+                output_file
+                    .write_all(b"/// [Bungie documentation](")
+                    .unwrap();
+                output_file.write_all(bungie_docs_link.as_bytes()).unwrap();
+                output_file.write_all(b")\n#[repr(").unwrap();
                 match enumeration.enumeration_type {
                     EnumerationType::Byte => output_file.write_all(b"Byte").unwrap(),
                     EnumerationType::Int32 => output_file.write_all(b"Int32").unwrap(),
