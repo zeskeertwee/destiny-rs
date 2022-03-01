@@ -16,7 +16,7 @@ jobs:
         run: cargo build
 
       - name: Get manifest URL
-        run: cargo run --bin manifest-downloader -- --ci-output-manifest-url && cat ./manifest-url.txt
+        run: cargo run --bin manifest-downloader -- --ci-output-manifest-url
         env:
           RUST_LOG: info
           CI_OUTPUT_MANIFEST_URL_FILE: ./manifest-url.txt
