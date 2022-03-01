@@ -19,7 +19,7 @@ jobs:
         run: cargo run --bin manifest-downloader -- --ci-output-manifest-url
         env:
           RUST_LOG: info
-          CI_OUTPUT_MANIFEST_URL_FILE: ~/manifest-url.txt
+          CI_OUTPUT_MANIFEST_URL_FILE: ~/manifest-url/url.txt
           BUNGIE_API_KEY: ${{ secrets.BUNGIE_API_KEY }}
 
       - name: Load manifest cache
@@ -28,7 +28,7 @@ jobs:
           cache-name: destiny-manifest-cache
         with:
           path: ~/.local/share/destiny-rs
-          key: destiny-manifest-cache-${{ hashFiles('~/manifest-url.txt') }}
+          key: destiny-manifest-cache-${{ hashFiles('~/manifest-url/url.txt') }}
 
       - uses: actions/checkout@v2
       - name: Download manifest
