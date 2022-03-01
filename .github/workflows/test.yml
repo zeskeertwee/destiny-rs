@@ -11,21 +11,32 @@ jobs:
     runs-on: ubuntu-latest
   
     steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: cargo build
+
+      - name: Get manifest URL
+        run: cargo run --bin manifest-downloader -- --ci-output-manifest-url
+        env:
+          RUST_LOG: info
+          CI_OUTPUT_MANIFEST_URL_FILE: ~/manifest-url.txt
+          BUNGIE_API_KEY: ${{ secrets.BUNGIE_API_KEY }}
+
       - name: Load manifest cache
         uses: actions/cache@v2
         env:
           cache-name: destiny-manifest-cache
         with:
           path: ~/.local/share/destiny-rs
-          key: destiny-manifest-cache
+          key: destiny-manifest-cache-${{ hashFiles('~/manifest-url.txt') }}
+
       - uses: actions/checkout@v2
-      - name: Build
-        run: cargo build
       - name: Download manifest
         run: cargo run --bin manifest-downloader
         env:
           RUST_LOG: info
           BUNGIE_API_KEY: ${{ secrets.BUNGIE_API_KEY }}
+
       - name: Run tests
         run: cargo test -- --nocapture
         env:
