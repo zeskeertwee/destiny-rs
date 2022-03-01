@@ -206,7 +206,7 @@ impl DestinyAPI {
         })
     }
 
-    async fn call_get_manifest(&self) -> Result<GeneralAPIResponse<GetDestinyManifestResponse>> {
+    pub async fn call_get_manifest(&self) -> Result<GeneralAPIResponse<GetDestinyManifestResponse>> {
         self.get_request::<GetDestinyManifestResponse>("Destiny2/Manifest/").await
     }
 
