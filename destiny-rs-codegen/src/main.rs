@@ -315,7 +315,17 @@ struct Object {
 
 fn id_to_struct_name(id: &str) -> String {
     // TODO: Turn into proper sturct name
-    id.split('.').last().unwrap().to_string()
+    match id {
+        "string" => "String".to_string(),
+        "int16" => "Int16".to_string(),
+        "uint16" => "Uint16".to_string(),
+        "int32" => "Int32".to_string(),
+        "uint32" => "Uint32".to_string(),
+        "int64" => "Int64".to_string(),
+        "uint64" => "Uint64".to_string(),
+        "boolean" => "Boolean".to_string(),
+        _ => id.split('.').last().unwrap().to_string(),
+    }
 }
 
 struct MobileManifestEntity {
