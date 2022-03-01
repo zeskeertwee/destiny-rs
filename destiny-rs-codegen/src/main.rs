@@ -602,7 +602,7 @@ fn main() {
     let mut manifests_generated = 0;
     use std::io::prelude::*;
     let mut output_file = std::fs::File::create("output.rs").unwrap();
-    output_file.write_all(b"use std::collections::HashMap;\n\npub type Byte = u8;\npub type Int16 = i16;\npub type Int32 = i32;\npub type Int64 = i64;\npub type Uint16 = u16;\npub type Uint32 = u32;\npub type Uint64 = u64;\npub type Float = f32;\npub type Double: f64;\n\n").unwrap();
+    output_file.write_all(b"use std::collections::HashMap;\n\npub type Byte = u8;\npub type Int16 = i16;\npub type Int32 = i32;\npub type Int64 = i64;\npub type Uint16 = u16;\npub type Uint32 = u32;\npub type Uint64 = u64;\npub type Float = f32;\npub type Double = f64;\n\n").unwrap();
     for entity in entities {
         let bungie_docs_link = entity.bungie_docs_link();
         match entity {
