@@ -60,9 +60,10 @@ pub struct HistoricalStatsPeriodGroup {
 #[serde(rename_all = "camelCase")]
 pub struct HistoricalStatsActivity {
     /// mapped to [`Activity`](crate::models::manifest::ManifestKey::Activity)
-    pub reference_id: Hash,
+    // TODO: activity
+    pub reference_id: Uint32,
     /// mapped to [`Activity`](crate::models::manifest::ManifestKey::Activity)
-    pub director_activity_hash: Hash,
+    pub director_activity_hash: Uint32,
     pub instance_id: Int64,
     pub mode: Int32,
     pub modes: Vec<Int32>,

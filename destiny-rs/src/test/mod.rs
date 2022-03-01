@@ -4,6 +4,7 @@ mod model;
 mod manifest;
 mod membership;
 mod api;
+mod hash;
 
 static INIT_ENV_LOG: Once = Once::new();
 

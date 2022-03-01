@@ -6,19 +6,22 @@ use {
     serde::Deserialize,
     std::collections::HashMap,
 };
+use crate::models::manifest_models::InventoryItem;
 
 /// [Bungie documentation](https://bungie-net.github.io/multi/schema_Destiny-Milestones-DestinyPublicMilestone.html#schema_Destiny-Milestones-DestinyPublicMilestone)
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct PublicMilestone {
     /// mapped to [`Milestone`](crate::models::manifest::ManifestKey::Milestone)
-    pub milestone_hash: Hash,
+    // TODO
+    pub milestone_hash: Uint32,
     #[serde(default = "serde_empty_vec")]
     pub availible_quests: Vec<PublicMilestoneQuest>,
     #[serde(default = "serde_empty_vec")]
     pub activities: Vec<PublicMilestoneChallengeActivity>,
     #[serde(default = "serde_empty_vec")]
-    pub vendor_hashes: Vec<Hash>,
+    #[deprecated(note = "Use the `vendors` field instead")]
+    pub vendor_hashes: Vec<Uint32>,
     #[serde(default = "serde_empty_vec")]
     pub vendors: Vec<PublicMilestoneVendor>,
     #[serde(default = "serde_none")]
@@ -35,7 +38,8 @@ pub struct PublicMilestone {
 #[serde(rename_all = "camelCase")]
 pub struct PublicMilestoneQuest {
     /// mapped to [`Milestone`](crate::models::manifest::ManifestKey::Milestone)
-    pub quest_item_hash: Hash,
+    // TODO
+    pub quest_item_hash: Uint32,
     pub activity: PublicMilestoneActivity,
     pub challenges: Vec<PublicMilestoneChallenge>,
 }
@@ -45,13 +49,16 @@ pub struct PublicMilestoneQuest {
 #[serde(rename_all = "camelCase")]
 pub struct PublicMilestoneActivity {
     /// mapped to [`Activity`](crate::models::manifest::ManifestKey::Activity)
-    pub activity_hash: Hash,
+    // TODO
+    pub activity_hash: Uint32,
     #[serde(default = "serde_empty_vec")]
     /// mapped to [`ActivityModifier`](crate::models::manifest::ManifestKey::ActivityModifier)
-    pub modifier_hashes: Vec<Hash>,
+    // TODO
+    pub modifier_hashes: Vec<Uint32>,
     pub variants: Vec<PublicMilestoneActivityVariant>,
     /// mapped to [`ActivityMode`](crate::models::manifest::ManifestKey::ActivityMode)
-    pub activity_mode_hash: Option<Hash>,
+    // TODO
+    pub activity_mode_hash: Option<Uint32>,
     pub activity_mode_type: Option<ActivityMode>,
 }
 
@@ -59,9 +66,12 @@ pub struct PublicMilestoneActivity {
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct PublicMilestoneActivityVariant {
-    pub activity_hash: Hash,
+    /// mapped to [`Activity`](crate::models::manifest::ManifestKey::Activity)
+    // TODO
+    pub activity_hash: Uint32,
     /// mapped to [`ActivityMode`](crate::models::manifest::ManifestKey::ActivityMode)
-    pub activity_mode_hash: Option<Hash>,
+    // TODO
+    pub activity_mode_hash: Option<Uint32>,
     pub activity_mode_type: Option<ActivityMode>
 }
 
@@ -70,9 +80,11 @@ pub struct PublicMilestoneActivityVariant {
 #[serde(rename_all = "camelCase")]
 pub struct PublicMilestoneChallenge {
     /// mapped to [`Objective`](crate::models::manifest::ManifestKey::Objective)
-    pub objective_hash: Hash,
+    // TODO
+    pub objective_hash: Uint32,
     /// mapped to [`Activity`](crate::models::manifest::ManifestKey::Activity)
-    pub activity_hash: Option<Hash>
+    // TODO
+    pub activity_hash: Option<Uint32>
 }
 
 /// [Bungie documentation](https://bungie-net.github.io/multi/schema_Destiny-Milestones-DestinyPublicMilestoneChallengeActivity.html#schema_Destiny-Milestones-DestinyPublicMilestoneChallengeActivity)
@@ -80,14 +92,16 @@ pub struct PublicMilestoneChallenge {
 #[serde(rename_all = "camelCase")]
 pub struct PublicMilestoneChallengeActivity {
     /// mapped to [`Activity`](crate::models::manifest::ManifestKey::Activity)
-    pub activity_hash: Hash,
-    pub challenge_objective_hashes: Vec<Hash>,
+    // TODO
+    pub activity_hash: Uint32,
+    pub challenge_objective_hashes: Vec<Uint32>,
     #[serde(default = "serde_empty_vec")]
     /// mapped to [`ActivityModifier`](crate::models::manifest::ManifestKey::ActivityModifier)
-    pub modifier_hashes: Vec<Hash>,
+    // TODO
+    pub modifier_hashes: Vec<Uint32>,
     pub loadout_requirement_index: Option<Int32>,
     #[serde(default = "serde_empty_vec")]
-    pub phase_hashes: Vec<Hash>,
+    pub phase_hashes: Vec<Uint32>,
     #[serde(default = "serde_empty_map")]
     pub boolean_activity_options: HashMap<String, bool>,
 }
@@ -97,7 +111,8 @@ pub struct PublicMilestoneChallengeActivity {
 #[serde(rename_all = "camelCase")]
 pub struct PublicMilestoneVendor {
     /// mapped to [`Vendor`](crate::models::manifest::ManifestKey::Vendor)
-    pub vendor_hash: Hash,
+    // TODO
+    pub vendor_hash: Uint32,
     /// mapped to [`InventoryItem`](crate::models::manifest::ManifestKey::InventoryItem)
-    pub preview_item_hash: Option<Hash>
+    pub preview_item_hash: Option<Hash<InventoryItem>>
 }

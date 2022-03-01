@@ -3,7 +3,6 @@ use crate::models::{
     manifest::ManifestKey,
     locale::Locale,
 };
-use std::path::PathBuf;
 use tokio_test::block_on;
 
 #[test]

@@ -8,6 +8,7 @@ use {
     },
     serde::Deserialize,
 };
+use crate::models::manifest_models::Season;
 
 /// [Bungie documentation](https://bungie-net.github.io/multi/schema_Destiny-Entities-Profiles-DestinyProfileComponent.html#schema_Destiny-Entities-Profiles-DestinyProfileComponent)
 #[derive(Debug, Deserialize)]
@@ -19,8 +20,8 @@ pub struct ProfileComponent {
     pub versions_owned: Int32,
     // TODO: parse to int64
     pub character_ids: Vec<String>,
-    pub season_hashes: Vec<Hash>,
-    pub current_season_hash: Option<Hash>,
+    pub season_hashes: Vec<Hash<Season>>,
+    pub current_season_hash: Option<Hash<Season>>,
     pub current_season_reward_power_cap: Option<Int32>,
 }
 

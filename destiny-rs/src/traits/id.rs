@@ -71,7 +71,7 @@ pub trait DestinyMembershipID: Sync {
 
                 let mut result = Vec::new();
                 for season_hash in season_hashes {
-                    result.push(manifest.query(season_hash, ManifestKey::Season)?);
+                    result.push(season_hash.query(manifest)?);
                 }
                 return Ok(result)
             },

@@ -92,7 +92,7 @@ impl Manifest {
         Ok(data)
     }
 
-    pub fn query<T: DeserializeOwned + Clone>(&self, hash: Hash, table: ManifestKey) -> Result<T> {
+    pub fn query<T: DeserializeOwned + Clone>(&self, hash: Uint32, table: ManifestKey) -> Result<T> {
         let query = {
             if hash > i32::MAX as u32 {
                 format!("SELECT json FROM {} WHERE id + 4294967296 = {}", table, hash)

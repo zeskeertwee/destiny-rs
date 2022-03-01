@@ -8,6 +8,9 @@ use {
     },
     serde::Deserialize
 };
+use crate::models::manifest::ManifestKey;
+use crate::models::manifest_models::Season;
+use crate::traits::manifest_key::ManifestTableKey;
 
 /// [Bungie documentation](https://bungie-net.github.io/multi/schema_Destiny-Definitions-DestinyInventoryItemDefinition.html#schema_Destiny-Definitions-DestinyInventoryItemDefinition)
 #[derive(Debug, Deserialize, Clone)]
@@ -17,7 +20,8 @@ pub struct InventoryItem {
     pub display_properties: DestinyDisplayProperties,
     pub tooltip_notifications: Vec<TooltipNotification>,
     /// mapped to [`Collectible`](crate::models::manifest::ManifestKey::Collectible)
-    pub collectible_hash: Option<Hash>,
+    // TODO: collectible
+    pub collectible_hash: Option<Uint32>,
     pub icon_watermark: Option<String>,
     pub icon_watermark_shelved: Option<String>,
     pub secondary_icon: String,
@@ -35,21 +39,29 @@ pub struct InventoryItem {
     pub inventory: ItemInventoryBlock,
     pub set_data: Option<ItemSetBlock>,
     /// mapped to [`Lore`](crate::models::manifest::ManifestKey::Lore)
-    pub lore_hash: Option<Hash>,
+    // TODO: lore
+    pub lore_hash: Option<Uint32>,
     /// mapped to [`InventoryItem`](crate::models::manifest::ManifestKey::InventoryItem)
-    pub summary_item_hash: Option<Hash>,
+    pub summary_item_hash: Option<Hash<InventoryItem>>,
     /// mapped to [`ItemCategory`](crate::models::manifest::ManifestKey::ItemCategory)
-    pub item_category_hashes: Vec<Hash>,
+    // TODO: item_category
+    pub item_category_hashes: Vec<Uint32>,
     /// mapped to [`BreakerType`](crate::models::manifest::ManifestKey::BreakerType)
-    pub breaker_type_hash: Option<Hash>,
+    // TODO: breaker_type
+    pub breaker_type_hash: Option<Uint32>,
     /// mapped to [`DamageType`](crate::models::manifest::ManifestKey::DamageType)
-    pub damage_type_hashes: Option<Vec<Hash>>,
+    // TODO: damage_type
+    pub damage_type_hashes: Option<Vec<Uint32>>,
     /// mapped to [`DamageType`](crate::models::manifest::ManifestKey::DamageType)
-    pub default_damage_type_hash: Option<Hash>,
+    pub default_damage_type_hash: Option<Uint32>,
     /// mapped to [`Season`](crate::models::manifest::ManifestKey::Season)
-    pub season_hash: Option<Hash>,
-    pub hash: Hash,
+    pub season_hash: Option<Hash<Season>>,
+    pub hash: Hash<Self>,
     pub redacted: bool,
+}
+
+impl ManifestTableKey for InventoryItem {
+    const TABLE_KEY: ManifestKey = ManifestKey::InventoryItem;
 }
 
 /// [Bungie documentation](https://bungie-net.github.io/multi/schema_Destiny-Definitions-DestinyItemTooltipNotification.html#schema_Destiny-Definitions-DestinyItemTooltipNotification)
@@ -74,7 +86,7 @@ pub struct ItemActionBlock {
     pub progression_rewards: Vec<ProgressionReward>,
     pub action_type_label: Option<String>,
     pub required_location: Option<String>,
-    pub required_cooldown_hash: Hash,
+    pub required_cooldown_hash: Uint32,
     pub delete_on_action: bool,
     pub consume_entire_stack: bool,
     pub use_on_acquire: bool,
@@ -87,7 +99,7 @@ pub struct ItemActionBlock {
 pub struct ItemActionRequiredItem {
     pub count: Int32,
     /// mapped to [`InventoryItem`](crate::models::manifest::ManifestKey::InventoryItem)
-    pub item_hash: Hash,
+    pub item_hash: Hash<InventoryItem>,
     pub delete_on_action: bool,
 }
 
@@ -96,7 +108,8 @@ pub struct ItemActionRequiredItem {
 #[serde(rename_all = "camelCase")]
 pub struct ProgressionReward {
     /// mapped to [`Progression`](crate::models::manifest::ManifestKey::Progression)
-    pub progression_hash: Hash,
+    // TODO: progression
+    pub progression_hash: Uint32,
     pub amount: Int32,
     pub apply_throttles: bool,
 }
@@ -108,11 +121,13 @@ pub struct ItemInventoryBlock {
     pub stack_unique_label: String,
     pub max_stack_size: Int32,
     /// mapped to [`InventoryBucket`](crate::models::manifest::ManifestKey::InventoryBucket)
-    pub bucket_type_hash: Hash,
+    // TODO: inventory_bucket
+    pub bucket_type_hash: Uint32,
     /// mapped to [`InventoryBucket`](crate::models::manifest::ManifestKey::InventoryBucket)
-    pub recovery_bucket_type_hash: Hash,
+    pub recovery_bucket_type_hash: Uint32,
     /// mapped to [`ItemTierType`](crate::models::manifest::ManifestKey::ItemTierType)
-    pub tier_type_hash: Hash,
+    // TODO: item_tier_type
+    pub tier_type_hash: Uint32,
     pub is_instance_item: bool,
     pub tier_type_name: String,
     pub tier_type: Int32,
@@ -141,5 +156,5 @@ pub struct ItemSetBlock {
 pub struct ItemSetBlockEntry {
     pub tracking_value: Int32,
     /// mapped to [`InventoryItem`](crate::models::manifest::ManifestKey::InventoryItem)
-    pub item_hash: Hash,
+    pub item_hash: Hash<InventoryItem>,
 }

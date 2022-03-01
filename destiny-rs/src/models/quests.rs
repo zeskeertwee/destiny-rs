@@ -7,11 +7,14 @@ use {
 #[serde(rename_all = "camelCase")]
 pub struct ObjectiveProgress {
     /// mapped to [`Objective`](crate::models::manifest::ManifestKey::Objective)
-    pub objective_hash: Hash,
+    // TODO
+    pub objective_hash: Uint32,
     /// mapped to [`Destination`](crate::models::manifest::ManifestKey::Destination)
-    pub destination_hash: Option<Hash>,
+    // TODO
+    pub destination_hash: Option<Uint32>,
     /// mapped to [`Activity`](crate::models::manifest::ManifestKey::Activity)
-    pub activity_hash: Option<Hash>,
+    // TODO
+    pub activity_hash: Option<Uint32>,
     pub progress: Int32,
     pub completion_value: Int32,
     pub complete: bool,

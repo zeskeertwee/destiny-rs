@@ -5,3 +5,4 @@ pub mod metrics;
 pub mod character;
 // TODO: kiosks & vendor
 //pub mod kiosks;
+//pub mod vendor;

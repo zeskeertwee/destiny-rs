@@ -5,7 +5,10 @@ use {
     },
     serde::Deserialize
 };
+use crate::models::manifest::ManifestKey;
+use crate::traits::manifest_key::ManifestTableKey;
 
+#[derive(Deserialize, Clone, Debug)]
 pub struct PresentationNode {
     pub display_properties: DestinyDisplayProperties,
     pub original_icon: String,
@@ -13,9 +16,11 @@ pub struct PresentationNode {
     pub node_type: String,
     pub scope: Int32,
     /// mapped to [`Objective`](crate::models::manifest::ManifestKey::Objective)
-    pub objective_hash: Option<Hash>,
+    // TODO
+    pub objective_hash: Option<Uint32>,
     /// mapped to [`Record`](crate::models::manifest::ManifestKey::Record)
-    pub completion_record_hash: Option<Hash>,
+    // TODO
+    pub completion_record_hash: Option<Uint32>,
     // TODO: children
     pub display_style: Int32,
     pub screen_style: Int32,
@@ -25,12 +30,17 @@ pub struct PresentationNode {
     pub presentation_node_type: Int32,
     pub trait_ids: Vec<String>,
     /// mapped to [`Trait`](crate::models::manifest::ManifestKey::Trait)
-    pub trait_hashes: Vec<Hash>,
+    // TODO
+    pub trait_hashes: Vec<Uint32>,
     /// mapped to [`PresentationNode`](crate::models::manifest::ManifestKey::PresentationNode)
-    pub parent_node_hashes: Vec<Hash>,
-    pub hash: Hash,
+    pub parent_node_hashes: Vec<Hash<Self>>,
+    pub hash: Hash<Self>,
     pub index: Int32,
     pub redacted: bool,
+}
+
+impl ManifestTableKey for PresentationNode {
+    const TABLE_KEY: ManifestKey = ManifestKey::PresentationNode;
 }
 
 /// [Bungie documentation](https://bungie-net.github.io/multi/schema_Destiny-Definitions-Presentation-DestinyPresentationNodeRequirementsBlock.html#schema_Destiny-Definitions-Presentation-DestinyPresentationNodeRequirementsBlock)

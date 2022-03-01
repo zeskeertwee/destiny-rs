@@ -9,6 +9,8 @@ pub(crate) use chrono::{
 };
 
 use std::{fmt, marker::PhantomData};
+use std::fmt::Debug;
+use serde::de::DeserializeOwned;
 use {
     serde::{
         de::{
@@ -17,7 +19,8 @@ use {
             MapAccess,
             Error,
         },
-        Deserialize
+        Deserialize,
+        Serialize,
     },
     std::{
         collections::HashMap,
@@ -25,12 +28,13 @@ use {
         hash,
     }
 };
+use crate::models::manifest::Manifest;
+use crate::traits::manifest_key::ManifestTableKey;
 
 pub type Int32 = i32;
 pub type Int64 = i64;
 pub type Uint32 = u32;
 pub type Uint64 = u64;
-pub type Hash = Uint32;
 
 pub type APIdateTime = DateTime::<Utc>;
 
@@ -184,10 +188,29 @@ where
     }
 }
 
-pub(crate) fn uint32_map_from_str<'de, D, V>(d: D) -> Result<HashMap<Hash, V>, D::Error>
+pub(crate) fn uint32_map_from_str<'de, D, V>(d: D) -> Result<HashMap<Uint32, V>, D::Error>
 where
     D: de::Deserializer<'de>,
     V: Deserialize<'de>
 {
     d.deserialize_map(StringMapVisitor { key: PhantomData, value: PhantomData })
+}
+
+#[derive(Deserialize, Serialize, Clone, Debug)]
+#[serde(transparent)]
+pub struct Hash<T: ManifestTableKey + Debug> {
+    pub hash: Uint32,
+    #[serde(skip_serializing)]
+    #[serde(skip_deserializing)]
+    pub _type: PhantomData<T>,
+}
+
+impl<T: ManifestTableKey + DeserializeOwned + Clone + Debug> Hash<T> {
+    pub fn new(hash: Uint32) -> Self {
+        Self { hash, _type: PhantomData }
+    }
+
+    pub fn query(&self, manifest: &Manifest) -> anyhow::Result<T> {
+        manifest.query(self.hash, T::TABLE_KEY)
+    }
 }

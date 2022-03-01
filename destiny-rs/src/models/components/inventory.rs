@@ -8,6 +8,8 @@ use {
     serde::Deserialize,
     std::collections::HashMap,
 };
+use crate::models::manifest_models::InventoryItem;
+
 /// [Bungie documentation](https://bungie-net.github.io/multi/schema_Destiny-Entities-Inventory-DestinyInventoryComponent.html#schema_Destiny-Entities-Inventory-DestinyInventoryComponent)
 #[derive(Debug, Deserialize)]
 pub struct InventoryComponent {
@@ -19,23 +21,27 @@ pub struct InventoryComponent {
 #[serde(rename_all = "camelCase")]
 pub struct ItemComponent {
     /// mapped to [`InventoryItem`](crate::models::manifest::ManifestKey::InventoryItem)
-    pub item_hash: Hash,
+    // TODO
+    pub item_hash: Uint32,
     pub item_instance_id: Option<Int64>,
     pub quantity: Int32,
     pub bind_status: Int32,
     pub location: Int32,
     /// mapped to [`InventoryBucket`](crate::models::manifest::ManifestKey::InventoryBucket)
-    pub bucket_hash: Hash,
+    // TODO
+    pub bucket_hash: Uint32,
     pub transfer_status: Int32,
     pub lockable: bool,
     pub state: Int32,
     /// mapped to [`InventoryItem`](crate::models::manifest::ManifestKey::InventoryItem)
-    pub override_style_item_hash: Option<Hash>,
+    pub override_style_item_hash: Option<Hash<InventoryItem>>,
     #[serde(deserialize_with = "from_timestamp")]
     pub expiration_date: APIdateTime,
     pub is_wrapper: bool,
     pub tooltip_notification_indexes: Vec<Int32>,
-    pub metric_hash: Option<Hash>,
+    /// mapped to [`Metric`](crate::models::manifest::ManifestKey::Metric)
+    // TODO: metric
+    pub metric_hash: Option<Uint32>,
     pub metric_objective: ObjectiveProgress,
     pub version_number: Option<Int32>
 }

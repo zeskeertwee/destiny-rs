@@ -5,6 +5,9 @@ use {
     },
     serde::Deserialize
 };
+use crate::models::manifest::ManifestKey;
+use crate::models::manifest_models::{InventoryItem, PresentationNode};
+use crate::traits::manifest_key::ManifestTableKey;
 
 /// [Bungie documentation](https://bungie-net.github.io/multi/schema_Destiny-Definitions-Seasons-DestinySeasonDefinition.html#schema_Destiny-Definitions-Seasons-DestinySeasonDefinition)
 #[derive(Debug, Deserialize, Clone)]
@@ -22,19 +25,25 @@ pub struct Season {
     #[serde(deserialize_with = "from_timestamp_nullable")]
     pub end_date: Option<APIdateTime>,
     /// mapped to [`SeasonPass`](crate::models::manifest::ManifestKey::SeasonPass)
-    pub season_pass_hash: Option<Hash>,
+    // TODO
+    pub season_pass_hash: Option<Uint32>,
     /// mapped to [`Progression`](crate::models::manifest::ManifestKey::Progression)
-    pub season_pass_progression_hash: Option<Hash>,
+    // TODO
+    pub season_pass_progression_hash: Option<Uint32>,
     /// mapped to [`InventoryItem`](crate::models::manifest::ManifestKey::InventoryItem)
-    pub artifact_item_hash: Option<Hash>,
+    pub artifact_item_hash: Option<Hash<InventoryItem>>,
     /// mapped to [`PresentationNode`](crate::models::manifest::ManifestKey::PresentationNode)
-    pub seal_presentation_node_hash: Option<Hash>,
+    pub seal_presentation_node_hash: Option<Hash<PresentationNode>>,
     /// mapped to [`PresentationNode`](crate::models::manifest::ManifestKey::PresentationNode)
-    pub seasonal_challenges_presentation_node_hash: Option<Hash>,
+    pub seasonal_challenges_presentation_node_hash: Option<Hash<PresentationNode>>,
     pub preview: Option<SeasonPreview>,
-    pub hash: Hash,
+    pub hash: Hash<Self>,
     pub index: Int32,
     pub redacted: bool,
+}
+
+impl ManifestTableKey for Season {
+    const TABLE_KEY: ManifestKey = ManifestKey::Season;
 }
 
 /// [Bungie documentation](https://bungie-net.github.io/multi/schema_Destiny-Definitions-Seasons-DestinySeasonPreviewDefinition.html#schema_Destiny-Definitions-Seasons-DestinySeasonPreviewDefinition)

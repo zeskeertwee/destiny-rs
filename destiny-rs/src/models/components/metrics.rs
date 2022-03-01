@@ -6,14 +6,15 @@ use {
     serde::Deserialize,
     std::collections::HashMap,
 };
+use crate::models::manifest_models::PresentationNode;
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct MetricsComponent {
     #[serde(deserialize_with = "uint32_map_from_str")]
-    pub metrics: HashMap<Hash, MetricSubComponent>,
+    pub metrics: HashMap<Uint32, MetricSubComponent>,
     /// mapped to [`PresentationNode`](crate::models::manifest::ManifestKey::PresentationNode)
-    pub metrics_root_node_hash: Hash,
+    pub metrics_root_node_hash: Hash<PresentationNode>,
 }
 
 #[derive(Debug, Deserialize)]

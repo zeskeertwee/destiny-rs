@@ -20,7 +20,7 @@ pub struct VendorComponent {
 pub struct VendorReceipt {
     pub currency_paid: DestinyItemQuantity,
     pub item_received: DestinyItemQuantity,
-    pub licence_unlock_hash: Hash,
+    pub licence_unlock_hash: Uint32,
     pub purchased_by_character_id: Int64,
     pub refund_policy: Int32,
     pub sequence_number: Int32,

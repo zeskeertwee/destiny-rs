@@ -2,12 +2,14 @@ use {
     crate::models::types::*,
     serde::Deserialize
 };
+use crate::models::manifest::ManifestKey;
+use crate::traits::manifest_key::ManifestTableKey;
 
 #[derive(Debug, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct Progression {
     /// mapped to [`Progression`](crate::models::manifest::ManifestKey::Progression)
-    pub progression_hash: Hash,
+    pub progression_hash: Hash<Self>,
     pub daily_progress: Int32,
     pub daily_limit: Int32,
     pub weekly_progress: Int32,
@@ -21,6 +23,10 @@ pub struct Progression {
     pub current_reset_count: Option<Int32>,
     pub season_resets: Option<Vec<ProgressionResetEntry>>,
     pub reward_item_states: Option<Vec<Int32>>,
+}
+
+impl ManifestTableKey for Progression {
+    const TABLE_KEY: ManifestKey = ManifestKey::Progression;
 }
 
 #[derive(Debug, Deserialize, Clone)]

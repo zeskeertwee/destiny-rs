@@ -13,6 +13,7 @@ use {
     },
     serde::Deserialize,
 };
+use crate::models::manifest_models::{Class, Gender, InventoryItem, Race};
 
 #[derive(Debug, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
@@ -31,24 +32,25 @@ pub struct CharacterComponent {
     pub light: Int32,
     pub stats: CharacterStats,
     /// mapped to [`Race`](crate::models::manifest::ManifestKey::Race)
-    pub race_hash: Hash,
+    pub race_hash: Hash<Race>,
     /// mapped to [`Gender`](crate::models::manifest::ManifestKey::Gender)
-    pub gender_hash: Hash,
+    pub gender_hash: Hash<Gender>,
     /// mapped to [`Class`](crate::models::manifest::ManifestKey::Class)
-    pub class_hash: Hash,
+    pub class_hash: Hash<Class>,
     pub race_type: Int32,
     pub class_type: Int32,
     pub gender_type: Int32,
     pub emblem_path: String,
     pub emblem_background_path: String,
     /// mapped to [`InventoryItem`](crate::models::manifest::ManifestKey::InventoryItem)
-    pub emblem_hash: Hash,
+    pub emblem_hash: Hash<InventoryItem>,
     pub emblem_color: Color,
     pub level_progression: Progression,
     pub base_character_level: Int32,
     pub percent_to_next_level: f32,
     /// mapped to [`Record`](crate::models::manifest::ManifestKey::Record)
-    pub title_record_hash: Option<Hash>,
+    // TODO: Record struct
+    pub title_record_hash: Option<Uint32>,
 }
 
 #[derive(Debug, Deserialize, Clone)]
