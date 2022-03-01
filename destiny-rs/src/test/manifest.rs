@@ -8,12 +8,16 @@ use tokio_test::block_on;
 
 #[test]
 fn test_get_recommended_manifest_path() {
+    super::init_log();
+
     let path = crate::get_recommended_manifest_path().unwrap();
-    println!("Recommended manifest path: {:?}", path);
+    log::info!("Recommended manifest path: {:?}", path);
 }
 
 #[test]
 fn manifest_keys() {
+    super::init_log();
+
     let keys = vec![
         ManifestKey::Achievement,
         ManifestKey::Activity,
@@ -81,7 +85,6 @@ fn manifest_keys() {
     let m = block_on(api.manifest(manifest_path, Locale::English)).unwrap();
 
     for key in keys {
-        println!("key: {}", key);
-        println!("{:?}", m.query_raw::<serde_json::Value>(&format!("SELECT * FROM {} LIMIT 1", key)).unwrap());
+        log::info!("key: {}: {:?}", key, m.query_raw::<serde_json::Value>(&format!("SELECT * FROM {} LIMIT 1", key)).unwrap());
     }
 }

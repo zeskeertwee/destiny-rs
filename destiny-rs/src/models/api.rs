@@ -58,6 +58,7 @@ use {
     },
     serde_json,
     reqwest,
+    log::{trace, info},
 };
 
 pub struct DestinyAPI {
@@ -138,15 +139,14 @@ impl DestinyAPI {
     }
 
     pub async fn get_request<T: DeserializeOwned>(&self, url: &str) -> Result<GeneralAPIResponse<T>> {
-        if cfg!(debug_assertions) {
-            println!("API_CALL: {}/{}", API_BASE_URL, url);
-        }
+        info!("API_CALL: {}/{}", API_BASE_URL, url);
+
         let raw_response = self.client.get(&format!("{}/{}", API_BASE_URL, url))
             .send()
             .await?
             .text()
             .await?;
-        //println!("{:?}", raw_response);
+        trace!("{:?}", raw_response);
         Ok(serde_json::from_str(&raw_response)?)
     }
 

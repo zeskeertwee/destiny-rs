@@ -22,8 +22,9 @@ jobs:
       - name: Build
         run: cargo build
       - name: Download manifest
-        run: cargo run --bin manifest_downloader
+        run: cargo run --bin manifest-downloader
         env:
+          RUST_LOG: info
           BUNGIE_API_KEY: ${{ secrets.BUNGIE_API_KEY }}
       - name: Run tests
         run: cargo test -- --nocapture
