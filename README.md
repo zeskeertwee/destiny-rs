@@ -19,8 +19,7 @@ use std::path::PathBuf;
 pub async fn main() {
     let api = DestinyAPI::new(&env::var("API_KEY").unwrap()).unwrap();
 
-    let mut manifest_path = PathBuf::new();
-    manifest_path.push("./manifest");
+    let manifest_path = destiny_rs::get_recommended_manifest_path().unwrap();
 
     let manifest = api.manifest(manifest_path, Locale::English).await.unwrap();
     
