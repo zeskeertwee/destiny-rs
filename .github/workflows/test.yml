@@ -41,3 +41,13 @@ jobs:
         env:
           RUST_LOG: trace
           BUNGIE_API_KEY: ${{ secrets.BUNGIE_API_KEY }}
+          
+      - name: Codegen
+        run: cargo run --bin destiny-rs-codegen
+        
+      - name: Upload codegen artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: destiny-rs-codegen-artifact
+          path: ./output.rs
+          
