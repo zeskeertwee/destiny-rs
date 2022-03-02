@@ -1,5 +1,6 @@
 [workspace]
 members = [
     "destiny-rs",
+    "destiny-rs-codegen",
     "manifest-downloader"
 ]
