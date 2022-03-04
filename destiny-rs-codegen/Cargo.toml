@@ -9,3 +9,13 @@ edition = "2021"
 reqwest = {version = "0.11.9", features=["blocking"]}
 regex = "1.5.4"
 lazy_static = "1.4.0"
+serde = { version = "1.0.136", features = ["derive"] }
+serde_json = "1.0.79"
+
+[dependencies.codegen]
+git = "https://github.com/zeskeertwee/codegen"
+rev = "3061671dfe76899f02c095285fce5b55e2b0bac1"
+
+[dependencies.openapi]
+git = "https://github.com/zeskeertwee/openapi"
+rev = "c0256d6811ae013ed5c89eb6ad16d6d2eabbf6d0"
