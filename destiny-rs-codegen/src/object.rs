@@ -1,17 +1,24 @@
+use std::collections::BTreeMap;
 use codegen::{Scope, Struct, Type};
 use openapi::v2::Schema;
 
 use crate::helper::{clean_field_name, get_absolute_path_for_item, ref_to_absolute_path};
 use crate::{CodegenDerive, DEFAULT_DERIVES, DEFAULT_SERDE_MACROS, scope_get_module_and_item_name_for_item};
+use crate::endpoint::additional_properties_workaround;
 
 pub fn generate_object(scope: &mut Scope, schema: &Schema, item_name: &str) {
     let structure_name = scope_get_module_and_item_name_for_item(scope, item_name).1;
     let mut structure = Struct::new(&structure_name);
     structure.derive_multiple(DEFAULT_DERIVES);
     structure.attribute(DEFAULT_SERDE_MACROS);
+    let mut schema = schema.to_owned();
 
     if schema.properties.is_none() {
+        //dbg!(schema);
         println!("Object {} has no properties!", item_name);
+
+        //schema = additional_properties_workaround(&schema);
+
         return;
     }
 
@@ -23,14 +30,13 @@ pub fn generate_object(scope: &mut Scope, schema: &Schema, item_name: &str) {
                 None => panic!("ref_path is not set for {}, but schema_type was empty!", name),
             };
 
-            let name = clean_field_name(&name);
             let absolute_path = ref_to_absolute_path(ref_path);
-            structure.field(&name, absolute_path).vis("pub");
+            structure.field(&clean_field_name(&name), absolute_path).vis("pub");
             continue;
         }
 
         let schema_type = property.schema_type.as_ref().unwrap();
-        dbg!(schema_type);
+        //dbg!(schema_type);
         let field_type = match schema_type.as_str() {
             "boolean" => Type::new("boolean"),
             "integer" => match property.format.as_ref() {
@@ -40,7 +46,14 @@ pub fn generate_object(scope: &mut Scope, schema: &Schema, item_name: &str) {
                     "int64" => Type::new("i64"),
                     "byte" => Type::new("u8"),
                     "uint16" => Type::new("u16"),
-                    "uint32" => Type::new("u32"),
+                    "uint32" => {
+                        // could be a hash
+                        dbg!(&property.other);
+                        match property.other.get("x-mapped-definition") {
+                            Some(def) => Type::new(&format!("Hash<{}>", ref_to_absolute_path(def["$ref"].as_str().unwrap()))),
+                            None => Type::new("u32"),
+                        }
+                    },
                     "uint64" => Type::new("u64"),
                     _ => panic!("Unsupported format {} for integer!", format),
                 },
@@ -102,7 +115,7 @@ pub fn generate_object(scope: &mut Scope, schema: &Schema, item_name: &str) {
             _ => panic!("Unsupported type {}!", schema_type),
         };
 
-        structure.field(name.as_str(), field_type).vis("pub");
+        structure.field(&clean_field_name(name.as_str()), field_type).vis("pub");
     }
 
     match scope_get_module_and_item_name_for_item(scope, item_name) {

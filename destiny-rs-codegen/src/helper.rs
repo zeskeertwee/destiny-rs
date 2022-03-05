@@ -23,8 +23,10 @@ impl CodegenDerive for codegen::Struct {
 }
 
 pub fn clean_field_name(name: &str) -> String {
-    let name = name.replace("type", r#"r#type"#);
-    name
+    match name {
+        "type" => "r#type".to_string(),
+        other => other.to_string(),
+    }
 }
 
 pub fn scope_get_module_and_item_name_for_item<'a>(scope: &'a mut codegen::Scope, item_name: &str) -> (Option<&'a mut Module>, String) {

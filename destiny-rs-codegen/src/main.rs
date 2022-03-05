@@ -1,5 +1,8 @@
+extern crate core;
+
 mod helper;
 mod object;
+mod endpoint;
 
 use std::error::Error;
 use std::fs::File;
@@ -16,15 +19,17 @@ fn main() -> Result<(), Box<dyn Error>> {
     let file = File::open("openapi-2.json")?;
     let spec = openapi::from_reader(file).unwrap();
 
-
     let mut generated = Vec::new();
     generated.write_all(CODEGEN_FILE_USES.as_bytes())?;
 
     // base API path
-    let base_api_path = format!(r#"const BASE_API_PATH: &'static str = "{}{}";"#, spec.host.unwrap(), spec.base_path.unwrap());
+    let base_api_path = format!(r#"const BASE_API_PATH: &'static str = "{}{}";"#, spec.host.as_ref().unwrap(), spec.base_path.as_ref().unwrap());
     generated.write_all(base_api_path.as_bytes())?;
+    generated.write_all("\n\n".as_bytes())?;
 
     let mut scope = Scope::new();
+
+    endpoint::generate_endpoints(&mut scope, &spec);
 
     for (name, schema) in spec.definitions.unwrap().iter() {
         if schema.enum_values.is_some() {
