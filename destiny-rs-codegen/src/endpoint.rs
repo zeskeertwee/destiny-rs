@@ -19,7 +19,7 @@ pub fn generate_endpoints(scope: &mut Scope, spec: &openapi::v2::Spec) {
         };
 
         let operation_id = route.operation_id.as_ref().unwrap();
-        let (function) = match scope_get_module_and_item_name_for_item(scope, operation_id) {
+        let function = match scope_get_module_and_item_name_for_item(scope, operation_id) {
             (Some(module), name) => module.new_fn(&name),
             (None, name) => scope.new_fn(&name),
         };
@@ -29,6 +29,8 @@ pub fn generate_endpoints(scope: &mut Scope, spec: &openapi::v2::Spec) {
 
         let response_item_name = format!("{}Response", operation_id);
         let response_absolute_path = get_absolute_path_for_item(&response_item_name);
+
+        function.ret(Type::new(&format!("anyhow::Result<{}>", response_absolute_path)));
         //let function_params = Vec::new();
         //dbg!(path, &path_item);
 
