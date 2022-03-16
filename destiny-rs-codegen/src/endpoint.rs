@@ -101,7 +101,7 @@ pub fn generate_endpoints(scope: &mut Scope, spec: &openapi::v2::Spec) {
                 url.push_route(&path);
 
                 function.line(&format!(r#"let url = format!("{}");"#, url.build()));
-                function.line(&format!("Ok(crate::codegen::get_request(client, url).await?)"));
+                function.line(&format!("Ok(crate::codegen::get_request(client, &url).await?)"));
             },
             None => (),
         }
