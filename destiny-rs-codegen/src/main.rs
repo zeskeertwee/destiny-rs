@@ -6,13 +6,13 @@ mod endpoint;
 
 use std::error::Error;
 use std::fs::File;
-use std::io::Write;
+use std::io::{Read, Write};
 use codegen;
 use codegen::{Import, Module, Scope, Type};
 use crate::helper::{CodegenDerive, dbg_print_generated, dbg_print_statistics, ref_to_absolute_path, scope_get_module_and_item_name_for_item};
 
 const CODEGEN_FILE_USES: &'static str = include_str!("./codegen_uses.rs");
-const DEFAULT_DERIVES: &[&'static str] = &["Debug", "PartialEq", "Eq", "Hash", "Deserialize", "Serialize"];
+const DEFAULT_DERIVES: &[&'static str] = &["Debug", "PartialEq", "Deserialize", "Serialize"];
 const DEFAULT_SERDE_MACROS: &'static str = "#[serde(rename_all = \"camelCase\")]";
 
 fn main() -> Result<(), Box<dyn Error>> {
@@ -119,7 +119,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         }
     }
 
-    generated.write_all(scope.to_string().as_bytes())?;
+    generated.write_all(scope.to_string().as_bytes()).unwrap();
 
     dbg_print_generated(&generated);
     println!();

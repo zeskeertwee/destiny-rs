@@ -30,6 +30,12 @@ pub fn clean_field_name(name: &str) -> String {
 }
 
 pub fn scope_get_module_and_item_name_for_item<'a>(scope: &'a mut codegen::Scope, item_name: &str) -> (Option<&'a mut Module>, String) {
+    let item_name = if item_name.starts_with(".") {
+        format!("Extra{}", item_name)
+    } else {
+        item_name.to_string()
+    };
+
     let mut modules: Vec<&str> = item_name.split('.').collect();
     let item_name = modules.pop().unwrap();
     if modules.len() == 0 {
@@ -40,15 +46,23 @@ pub fn scope_get_module_and_item_name_for_item<'a>(scope: &'a mut codegen::Scope
     for module_name in modules.iter().skip(1) {
         module = module.get_or_new_module(module_name);
     }
+    module.vis("pub");
 
     module.import("serde", "{Deserialize, Serialize}");
+    module.import("crate", "Hash");
     return (Some(module), item_name.to_string());
 }
 
-/// "Applications.ApplicationScopes" would become "crate::Applications::ApplicationScopes"
+/// "Applications.ApplicationScopes" would become "crate::codegen::Applications::ApplicationScopes"
 pub fn get_absolute_path_for_item(item_name: &str) -> String {
+    let item_name = if item_name.starts_with(".") {
+        format!("Extra{}", item_name)
+    } else {
+        item_name.to_string()
+    };
+
     let mut modules: Vec<&str> = item_name.split('.').collect();
-    let mut result = String::from("crate::");
+    let mut result = String::from("crate::codegen::");
     let last_item = modules.pop().unwrap();
 
     for module in modules {

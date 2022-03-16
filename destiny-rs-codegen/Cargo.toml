@@ -19,3 +19,7 @@ rev = "3061671dfe76899f02c095285fce5b55e2b0bac1"
 [dependencies.openapi]
 git = "https://github.com/zeskeertwee/openapi"
 rev = "c0256d6811ae013ed5c89eb6ad16d6d2eabbf6d0"
+
+[dependencies.url_builder]
+git = "https://github.com/zeskeertwee/rust_url_builder"
+rev = "e0e4e937e965ad67a1ed6e18b19c4c407861f050"

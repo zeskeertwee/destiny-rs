@@ -38,7 +38,7 @@ pub fn generate_object(scope: &mut Scope, schema: &Schema, item_name: &str) {
         let schema_type = property.schema_type.as_ref().unwrap();
         //dbg!(schema_type);
         let field_type = match schema_type.as_str() {
-            "boolean" => Type::new("boolean"),
+            "boolean" => Type::new("bool"),
             "integer" => match property.format.as_ref() {
                 Some(format) => match format.as_str() {
                     "int16" => Type::new("i16"),
