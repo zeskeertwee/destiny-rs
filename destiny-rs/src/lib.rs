@@ -8,7 +8,7 @@ mod test;
 pub(crate) const DOWNLOAD_BASE_URL: &str = "https://www.bungie.net";
 pub(crate) const API_BASE_URL: &str = "https://www.bungie.net/Platform";
 
-pub use Hash;
+pub use crate::models::types::Hash;
 
 use std::path::PathBuf;
 use directories::ProjectDirs;

@@ -118,6 +118,14 @@ pub fn generate_object(scope: &mut Scope, schema: &Schema, item_name: &str) {
         structure.field(&clean_field_name(name.as_str()), field_type).vis("pub");
     }
 
+    if structure_name.starts_with("Destiny") && structure_name.ends_with("Definition") {
+        // it's mapped to a manifest table, since all manifest table structs follow the same naming convention:
+        // for example: DestinyInventoryItemDefinition
+
+        // TODO: implement constant
+        codegen::Impl::new(&structure).impl_trait("crate::traits::manifest_key::ManifestTableKey").
+    }
+
     match scope_get_module_and_item_name_for_item(scope, item_name) {
         (Some(module), _) => { module.push_struct(structure); },
         (None, _) => { scope.push_struct(structure); },

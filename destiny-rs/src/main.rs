@@ -4,5 +4,5 @@ use destiny_rs::codegen;
 fn main() {
     let client = reqwest::Client::new();
 
-    let locales = codegen::GetAvailableLocales(&client).unwrap();
+    let locales = codegen::Extra::GetAvailableLocales(&client).unwrap();
 }
