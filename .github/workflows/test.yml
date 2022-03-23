@@ -44,6 +44,8 @@ jobs:
           
       - name: Codegen
         run: cargo run --bin destiny-rs-codegen
+        env:
+          OUTPUT_TO_FILE: output.rs
         
       - name: Upload codegen artifact
         uses: actions/upload-artifact@v2
