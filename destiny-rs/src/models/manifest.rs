@@ -110,6 +110,7 @@ impl Manifest {
     }
 }
 
+#[derive(Debug, PartialEq)]
 pub enum ManifestKey {
     Achievement,
     Activity,

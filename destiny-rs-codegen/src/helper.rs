@@ -1,4 +1,5 @@
 use codegen::Module;
+use crate::HASH_BLACKLIST;
 
 pub trait CodegenDerive {
     fn _derive(&mut self, name: &str);
@@ -45,6 +46,7 @@ pub fn scope_get_module_and_item_name_for_item<'a>(scope: &'a mut codegen::Scope
     let mut module = scope.get_or_new_module(modules[0]);
     for module_name in modules.iter().skip(1) {
         module = module.get_or_new_module(module_name);
+        module.vis("pub");
     }
     module.vis("pub");
 
@@ -94,4 +96,14 @@ pub fn dbg_print_statistics(generated: &Vec<u8>) {
     println!("Generated {} modules", module_count);
     println!("Generated {} structs", struct_count);
     println!("Generated {} enums", enum_count);
+}
+
+pub fn is_hash_blacklisted(item_name: &str) -> bool {
+    for blacklisted_hash in HASH_BLACKLIST.iter() {
+        if item_name.contains(blacklisted_hash) {
+            return true;
+        }
+    }
+
+    false
 }

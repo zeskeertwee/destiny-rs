@@ -12,8 +12,11 @@ use codegen::{Import, Module, Scope, Type};
 use crate::helper::{CodegenDerive, dbg_print_generated, dbg_print_statistics, ref_to_absolute_path, scope_get_module_and_item_name_for_item};
 
 const CODEGEN_FILE_USES: &'static str = include_str!("./codegen_uses.rs");
-const DEFAULT_DERIVES: &[&'static str] = &["Debug", "PartialEq", "Deserialize", "Serialize"];
+const DEFAULT_DERIVES: &[&'static str] = &["Debug", "Deserialize", "Serialize"];
 const DEFAULT_SERDE_MACROS: &'static str = "#[serde(rename_all = \"camelCase\")]";
+
+// these are in the openAPI spec as being mapped to a hash, but they are actually not in the manifest AFAIK
+const HASH_BLACKLIST: &[&'static str] = &["Destiny.Definitions.DestinyProgressionMappingDefinition", "Destiny.Definitions.DestinyUnlockValueDefinition"];
 
 fn main() -> Result<(), Box<dyn Error>> {
     let file = File::open("openapi-2.json")?;
@@ -70,7 +73,6 @@ fn main() -> Result<(), Box<dyn Error>> {
         }
 
         if let Some(schema_type) = &schema.schema_type {
-            dbg!(name, &schema);
             match schema_type.as_str() {
                 "object" => {
                     object::generate_object(&mut scope, &schema, &name);
@@ -106,6 +108,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                 },
                 "integer" => {
                     if schema.enum_values.is_none() {
+                        dbg!(schema);
                         panic!("Integer schema type without enum!");
                     }
 
@@ -121,7 +124,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     generated.write_all(scope.to_string().as_bytes()).unwrap();
 
-    dbg_print_generated(&generated);
+    //dbg_print_generated(&generated);
     println!();
     dbg_print_statistics(&generated);
 

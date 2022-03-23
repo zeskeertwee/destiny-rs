@@ -33,7 +33,6 @@ pub fn generate_endpoints(scope: &mut Scope, spec: &openapi::v2::Spec) {
 
         function.ret(Type::new(&format!("anyhow::Result<{}>", response_absolute_path)));
         let mut function_params = Vec::new();
-        //dbg!(path, &path_item);
 
         match &route.parameters {
             Some(parameters) => {
@@ -74,6 +73,7 @@ pub fn generate_endpoints(scope: &mut Scope, spec: &openapi::v2::Spec) {
                                     "String"
                                 },
                                 _ => "()"
+                                // TODO: fix this
                                 //x => panic!("Unsupported type {}", x),
                             };
 
@@ -150,7 +150,6 @@ pub fn additional_properties_workaround(schema: &Schema) -> Schema {
 
     if schema.properties.is_some() {
         // not necessary
-        dbg!(&schema);
         println!("Properties not empty!");
         return schema;
     }

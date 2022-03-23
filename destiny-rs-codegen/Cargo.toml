@@ -14,7 +14,7 @@ serde_json = "1.0.79"
 
 [dependencies.codegen]
 git = "https://github.com/zeskeertwee/codegen"
-rev = "3061671dfe76899f02c095285fce5b55e2b0bac1"
+rev = "89c5723c3aecf78cfb334b527d49d5423e276c5b"
 
 [dependencies.openapi]
 git = "https://github.com/zeskeertwee/openapi"
